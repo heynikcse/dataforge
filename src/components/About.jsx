@@ -1,3 +1,12 @@
+import CountUp from './CountUp.jsx'
+
+const STATS = [
+  { end: 48, prefix: '', suffix: '', label: 'HOURS' },
+  { end: 300, prefix: '', suffix: '+', label: 'HACKERS' },
+  { end: 3, prefix: '₹', suffix: 'L', label: 'IN PRIZES' },
+  { end: 12, prefix: '', suffix: '', label: 'MENTORS' },
+]
+
 export default function About() {
   return (
     <section id="about" className="bg-base border-t border-line px-6 sm:px-[6vw] py-24 sm:py-32">
@@ -19,15 +28,12 @@ export default function About() {
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-6 mt-16 border-t border-line pt-10">
-          {[
-            ['48', 'HOURS'],
-            ['300+', 'HACKERS'],
-            ['₹3L', 'IN PRIZES'],
-            ['12', 'MENTORS'],
-          ].map(([num, label]) => (
-            <div key={label}>
-              <div className="font-display font-extrabold text-3xl sm:text-4xl text-offwhite">{num}</div>
-              <div className="font-mono text-[11px] tracking-[0.18em] text-gray mt-2">{label}</div>
+          {STATS.map((s) => (
+            <div key={s.label}>
+              <div className="font-display font-extrabold text-3xl sm:text-4xl text-offwhite">
+                <CountUp end={s.end} prefix={s.prefix} suffix={s.suffix} />
+              </div>
+              <div className="font-mono text-[11px] tracking-[0.18em] text-gray mt-2">{s.label}</div>
             </div>
           ))}
         </div>

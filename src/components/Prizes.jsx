@@ -1,3 +1,5 @@
+import CountUp from './CountUp.jsx'
+
 const TIERS = [
   { num: '01', label: 'Winner', amount: '₹1,50,000', note: 'Plus internship interviews at partner labs' },
   { num: '02', label: 'Runner-up', amount: '₹80,000', note: 'Plus mentorship from sponsor engineers' },
@@ -14,7 +16,7 @@ export default function Prizes() {
         </div>
 
         <h2 className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl mb-16">
-          ₹3,00,000 on the table.
+          <CountUp end={300000} prefix="₹" animatePrefix duration={2.6} /> on the table.
         </h2>
 
         <div className="flex flex-col">
