@@ -449,20 +449,33 @@ h1.hero-title .char {
 
 .timeline-dot {
   position: absolute;
-  left: -40px;
-  top: 3px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--line-strong);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  left: -44px;
+  top: -2px;
+  width: 16px;
+  height: 16px;
 }
 
-.timeline-dot.is-lit {
+.timeline-dot i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  font-style: normal;
+  background: var(--line-strong);
+  transform: translate(-50%, -50%) translate(var(--x), var(--y));
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-dot i:nth-child(1) { --x: -6px; --y: -6px; }
+.timeline-dot i:nth-child(2) { --x: 6px; --y: -6px; }
+.timeline-dot i:nth-child(3) { --x: 0px; --y: 0px; }
+.timeline-dot i:nth-child(4) { --x: -6px; --y: 6px; }
+.timeline-dot i:nth-child(5) { --x: 6px; --y: 6px; }
+
+.timeline-dot.is-lit i {
   background: var(--orange);
-  border-color: var(--orange);
-  box-shadow: 0 0 10px rgba(255, 90, 31, 0.7);
+  box-shadow: 0 0 6px rgba(255, 90, 31, 0.7);
 }
 
 .timeline-event {

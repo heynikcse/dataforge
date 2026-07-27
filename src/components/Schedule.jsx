@@ -51,8 +51,8 @@ export default function Schedule() {
         ease: 'none',
         scrollTrigger: {
           trigger: wrapRef.current,
-          start: 'top 70%',
-          end: 'bottom 40%',
+          start: 'top 75%',
+          end: 'bottom 65%',
           scrub: true,
         },
       })
@@ -94,7 +94,7 @@ export default function Schedule() {
 
   return (
     <section id="schedule" className="border-t border-line px-6 sm:px-[6vw] py-24 sm:py-32">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="font-mono text-[11px] tracking-[0.28em] text-gray flex items-center gap-3 mb-8">
           <span className="w-9 h-px bg-orange inline-block" />
           03 / SCHEDULE
@@ -104,7 +104,7 @@ export default function Schedule() {
           48 hours, mapped out.
         </h2>
 
-        <div className="timeline-wrap" ref={wrapRef}>
+        <div className="timeline-wrap max-w-2xl" ref={wrapRef}>
           <div className="timeline-rail" />
           <div className="timeline-fill" ref={fillRef} />
 
@@ -113,7 +113,13 @@ export default function Schedule() {
               <span
                 className="timeline-dot"
                 ref={(el) => (dotRefs.current[dayIdx] = el)}
-              />
+              >
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
 
               <div className="flex items-baseline justify-between border-b border-lineStrong pb-4 mb-2">
                 <span className="font-display font-bold uppercase text-offwhite text-lg tracking-wide">
