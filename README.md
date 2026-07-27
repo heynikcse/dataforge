@@ -1,6 +1,9 @@
 # DATAFORGE — Data Science Club Hackathon
 
-Premium, editorial hero site built with React + Vite + Tailwind + GSAP + Lenis.
+Premium, editorial hackathon site built with React + Vite + Tailwind + GSAP + Lenis.
+
+**Live:** https://dataforge-two-azure.vercel.app
+**Repo:** https://github.com/heynikcse/dataforge
 
 ## Project structure
 
@@ -14,14 +17,20 @@ dataforge/
 └── src/
     ├── main.jsx
     ├── App.jsx
-    ├── index.css              # tokens, typography, animation CSS
+    ├── index.css                     # tokens, typography, animation CSS
     ├── hooks/
-    │   └── useLenis.js        # Lenis smooth scroll wired to GSAP ticker
+    │   └── useLenis.js               # Lenis smooth scroll wired to GSAP ticker
     └── components/
-        ├── Navbar.jsx
-        ├── Hero.jsx
+        ├── Navbar.jsx                # floating nav strip, scroll-extend, custom cursor
+        ├── Hero.jsx                  # centered title reveal, presented-by block
         ├── BackgroundAnimation.jsx   # canvas neural-network background
-        └── MenuOverlay.jsx
+        ├── MenuOverlay.jsx           # fullscreen slide-down navigation
+        ├── About.jsx                 # intro copy + stat row
+        ├── CountUp.jsx               # animated count-up numbers (used in About's stats)
+        ├── Schedule.jsx              # 3-day event timeline
+        ├── Prizes.jsx                # prize tiers
+        ├── Sponsors.jsx              # sponsor grid
+        └── Register.jsx              # registration form UI
 ```
 
 ## 1. Run it locally
@@ -42,13 +51,25 @@ npm run preview   # optional: preview the production build locally
 
 This outputs a static `dist/` folder — that's what gets deployed.
 
-## 3. Push to GitHub
+## 3. Push changes to GitHub
+
+The repo is already set up and connected to Vercel, so any push to `main`
+triggers a new production deployment automatically.
 
 ```bash
-git init
 git add .
-git commit -m "Initial commit — DATAFORGE hero"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
+git commit -m "Describe your change"
+git push
 ```
+
+## 4. Deployment
+
+Already live on Vercel, connected directly to this GitHub repo:
+
+- Build command: `npm run build` (Vercel auto-detects Vite)
+- Output directory: `dist`
+- Every push to `main` redeploys automatically — check the **Deployments**
+  tab on Vercel or the commit checkmark on GitHub to confirm a build succeeded.
+
+To deploy a different branch or preview a change before merging, open a
+pull request — Vercel will generate a preview URL for it automatically.
