@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 /**
  * Sets up Lenis smooth scrolling and syncs it with GSAP's ticker
@@ -13,6 +16,10 @@ export default function useLenis() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     })
+
+    // Keep ScrollTrigger's cached measurements in step with Lenis's
+    // eased scroll position (rather than only native scroll events).
+    lenis.on('scroll', ScrollTrigger.update)
 
     // Drive Lenis from GSAP's ticker so any ScrollTrigger-based
     // animations stay perfectly in sync with the smooth scroll.

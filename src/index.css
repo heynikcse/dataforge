@@ -401,6 +401,74 @@ h1.hero-title .char {
   border-top: 1px solid var(--line);
 } */
 
+/* ---------- Schedule: vertical scroll-progress timeline ---------- */
+.timeline-wrap {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-rail,
+.timeline-fill {
+  position: absolute;
+  left: 1px;
+  top: 4px;
+  width: 6px;
+}
+
+.timeline-rail {
+  bottom: 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--line-strong) 0,
+    var(--line-strong) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.timeline-fill {
+  height: 0%;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--orange) 0,
+    var(--orange) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  filter: drop-shadow(0 0 4px rgba(255, 90, 31, 0.65));
+}
+
+.timeline-day {
+  position: relative;
+  margin-bottom: 56px;
+}
+
+.timeline-day:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -40px;
+  top: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--line-strong);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-dot.is-lit {
+  background: var(--orange);
+  border-color: var(--orange);
+  box-shadow: 0 0 10px rgba(255, 90, 31, 0.7);
+}
+
+.timeline-event {
+  will-change: transform, filter, opacity;
+}
+
 @media (max-width: 640px) {
   .hero-meta {
     display: none;
