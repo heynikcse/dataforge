@@ -44,20 +44,26 @@ body.menu-open {
   width: 100%;
   height: 100svh;
   min-height: 560px;
-  background: var(--bg);
+  /* background removed so the fixed canvas behind it shows through */
+  background: transparent;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+/* Fixed, full-viewport background layer. Lives once in App.jsx,
+   sits behind the navbar and every section, and stays put on scroll. */
 canvas#bgCanvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: block;
   opacity: 0.85;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .overlay-scrim {

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
-import BackgroundAnimation from './BackgroundAnimation.jsx'
 
 const TITLE = 'DATAFORGE'
 
@@ -39,7 +38,6 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home" ref={scope}>
-      <BackgroundAnimation />
       <div className="grid-overlay" />
       <div className="overlay-scrim" />
 

@@ -9,7 +9,7 @@ const STATS = [
 
 export default function About() {
   return (
-    <section id="about" className="bg-base border-t border-line px-6 sm:px-[6vw] py-24 sm:py-32">
+    <section id="about" className="border-t border-line px-6 sm:px-[6vw] py-24 sm:py-32">
       <div className="max-w-5xl mx-auto">
         <div className="font-mono text-[11px] tracking-[0.28em] text-gray flex items-center gap-3 mb-8">
           <span className="w-9 h-px bg-orange inline-block" />

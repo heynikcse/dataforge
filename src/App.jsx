@@ -8,6 +8,7 @@ import Prizes from './components/Prizes.jsx'
 import Sponsors from './components/Sponsors.jsx'
 import Register from './components/Register.jsx'
 import useLenis from './hooks/useLenis.js'
+import BackgroundAnimation from './components/BackgroundAnimation.jsx'
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -26,6 +27,10 @@ export default function App() {
 
   return (
     <>
+      {/* Mounted once here so it renders behind every section on the page,
+          instead of only existing while Hero is mounted. */}
+      <BackgroundAnimation />
+
       <Navbar
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((v) => !v)}
