@@ -3,6 +3,7 @@
 Premium, editorial hackathon site built with React + Vite + Tailwind + GSAP + Lenis.
 
 **Live:** https://dataforge-two-azure.vercel.app
+
 **Repo:** https://github.com/heynikcse/dataforge
 
 ## Project structure
