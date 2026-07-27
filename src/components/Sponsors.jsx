@@ -17,9 +17,9 @@ export default function Sponsors() {
           {SPONSORS.map((s) => (
             <div
               key={s}
-              className="border-r border-b border-line py-12 flex items-center justify-center text-center px-4"
+              className="sponsor-tile border-r border-b border-line py-12 flex items-center justify-center text-center px-4"
             >
-              <span className="font-display font-bold uppercase tracking-wide text-[#F5F5F3] opacity-70 text-sm sm:text-[16px]">
+              <span className="font-display font-bold uppercase tracking-wide text-[#F5F5F3] opacity-70 text-sm sm:text-[16px] transition-opacity duration-300">
                 {s}
               </span>
             </div>

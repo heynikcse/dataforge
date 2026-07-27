@@ -20,7 +20,8 @@ export default function Register() {
 
   return (
     <section id="register" className="border-t border-line px-6 sm:px-[6vw] py-24 sm:py-32">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+      <div className="max-w-3xl">
         <div className="font-mono text-[11px] tracking-[0.28em] text-gray flex items-center gap-3 mb-8">
           <span className="w-9 h-px bg-orange inline-block" />
           06 / REGISTER
@@ -102,6 +103,7 @@ export default function Register() {
             </button>
           </form>
         )}
+      </div>
       </div>
     </section>
   )
