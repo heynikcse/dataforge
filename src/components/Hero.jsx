@@ -4,11 +4,13 @@ import RetroTV from './RetroTV.jsx'
 
 const TITLE = 'DATAFORGE'
 
-export default function Hero() {
+export default function Hero({ landed, onLanded, tvElevated }) {
   const titleRef = useRef(null)
   const scope = useRef(null)
 
   useEffect(() => {
+    if (!landed) return
+
     const ctx = gsap.context(() => {
       const chars = titleRef.current.querySelectorAll('.char')
 
@@ -17,7 +19,7 @@ export default function Hero() {
       tl.fromTo(
         '.eyebrow',
         { opacity: 0, y: -10 },
-        { opacity: 1, y: 0, duration: 0.6, delay: 0.3 }
+        { opacity: 1, y: 0, duration: 0.6 }
       )
         .to(
           chars,
@@ -35,11 +37,11 @@ export default function Hero() {
     }, scope)
 
     return () => ctx.revert()
-  }, [])
+  }, [landed])
 
   return (
     <section className="hero" id="home" ref={scope}>
-      <RetroTV />
+      <RetroTV onLanded={onLanded} elevated={tvElevated} />
 
       <div className="grid-overlay" />
       <div className="overlay-scrim" />
