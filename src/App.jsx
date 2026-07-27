@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import MenuOverlay from './components/MenuOverlay.jsx'
@@ -11,15 +11,28 @@ import useLenis from './hooks/useLenis.js'
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   // Smooth scroll for the whole app
   useLenis()
 
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <>
-      <Navbar onMenuClick={() => setMenuOpen(true)} />
+      <Navbar
+        menuOpen={menuOpen}
+        onToggleMenu={() => setMenuOpen((v) => !v)}
+        scrolled={scrolled}
+      />
       <Hero />
-      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} scrolled={scrolled} />
 
       <About />
       <Schedule />

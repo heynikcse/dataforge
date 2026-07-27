@@ -1,20 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-export default function Navbar({ onMenuClick }) {
+export default function Navbar({ menuOpen, onToggleMenu, scrolled }) {
   const navRef = useRef(null)
-  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     gsap.to(navRef.current, { opacity: 1, duration: 0.8, delay: 1.0, ease: 'power2.out' })
-  }, [])
-
-  useEffect(() => {
-    function onScroll() {
-      setScrolled(window.scrollY > 40)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
@@ -25,11 +16,17 @@ export default function Navbar({ onMenuClick }) {
           DSC//25
         </div>
 
-        <div className="nav-dots" aria-hidden="true">
-          <i /> <i /> <i />
-        </div>
+        <button
+          className={`nav-dots-btn ${menuOpen ? 'is-open' : ''}`}
+          onClick={onToggleMenu}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        >
+          <span className="nav-dots">
+            <i /> <i /> <i /> <i /> <i />
+          </span>
+        </button>
 
-        <button className="menu-btn" onClick={onMenuClick} aria-label="Open menu">
+        <button className="menu-btn" onClick={onToggleMenu} aria-label="Open menu">
           MENU
           <span className="bars">
             <span />
