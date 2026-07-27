@@ -13,7 +13,7 @@ export default function Navbar({ menuOpen, onToggleMenu, scrolled }) {
       <div className={`navstrip ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="logo-mark">
           <span className="dot" />
-          DSC//25
+          DSC
         </div>
 
         <button

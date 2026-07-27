@@ -27,8 +27,6 @@ export default function App() {
 
   return (
     <>
-      {/* Mounted once here so it renders behind every section on the page,
-          instead of only existing while Hero is mounted. */}
       <BackgroundAnimation />
 
       <Navbar

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import RetroTV from './RetroTV.jsx'
 
 const TITLE = 'DATAFORGE'
 
@@ -38,6 +39,8 @@ export default function Hero() {
 
   return (
     <section className="hero" id="home" ref={scope}>
+      <RetroTV />
+
       <div className="grid-overlay" />
       <div className="overlay-scrim" />
 
