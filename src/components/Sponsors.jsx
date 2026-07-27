@@ -19,7 +19,7 @@ export default function Sponsors() {
               key={s}
               className="border-r border-b border-line py-12 flex items-center justify-center text-center px-4"
             >
-              <span className="font-display font-bold uppercase tracking-wide text-offwhite/60 text-sm sm:text-base">
+              <span className="font-display font-bold uppercase tracking-wide text-[#F5F5F3] opacity-70 text-sm sm:text-[16px]">
                 {s}
               </span>
             </div>

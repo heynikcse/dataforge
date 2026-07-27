@@ -92,10 +92,10 @@ export default function MenuOverlay({ open, onClose, scrolled }) {
         ))}
       </div>
 
-      <div className="menu-panel-footer">
+      {/* <div className="menu-panel-footer">
         <span>DATAFORGE © 2026</span>
         <span>DATA SCIENCE CLUB</span>
-      </div>
+      </div> */}
     </div>
   )
 }
