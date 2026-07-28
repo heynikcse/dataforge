@@ -53,6 +53,7 @@ The brief asked for 3+ creative features — this project has considerably more,
 
 ```
 dataforge/
+├── Task 1_Product Thinking.pdf
 ├── index.html
 ├── package.json
 ├── vite.config.js
