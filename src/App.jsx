@@ -10,6 +10,7 @@ import Sponsors from './components/Sponsors.jsx'
 import Register from './components/Register.jsx'
 import useLenis from './hooks/useLenis.js'
 import BackgroundAnimation from './components/BackgroundAnimation.jsx'
+import Footer from './components/Footer.jsx'
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -64,6 +65,7 @@ export default function App() {
       <Prizes />
       <Sponsors />
       <Register />
+      <Footer />
 
       <div className="page-loader-overlay" ref={loaderRef} />
     </>
