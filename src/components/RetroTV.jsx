@@ -2,50 +2,52 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
 /**
- * Coin-flip fall: runs exactly ONCE, ever. hasPlayedRef guards against
- * re-firing (scroll re-renders, etc). onLandedRef lets us call the
- * latest callback without needing it in the dependency array.
- *
- * IMPORTANT: no tl.kill() on cleanup — React 18 Strict Mode's dev-only
- * mount→cleanup→mount cycle would kill the timeline mid-flight on the
- * synthetic first cleanup, and since hasPlayedRef is already flipped
- * true by then, the animation would never get to replay or complete —
- * onLanded never fires and the loader overlay is stuck forever.
+ * A real 6-faced 3D cube (front = CRT screen, other 5 faces = bezel
+ * panels). Falls + spins into place once (see the "run once" guard —
+ * no tl.kill() on cleanup, so Strict Mode's dev double-mount can't
+ * kill it mid-flight). Once landed, drag-to-rotate takes over —
+ * LEFT/RIGHT ONLY (rotateY), no vertical tilt — with a short inertia
+ * decay on release. It stays wherever you leave it.
  */
 export default function RetroTV({ onLanded, elevated }) {
-  const tvRef = useRef(null)
+  const tvRef = useRef(null) // outer: fall (y / opacity / scale)
+  const cubeRef = useRef(null) // inner: all rotation (entrance spin + drag)
   const glowRef = useRef(null)
-  const bodyRef = useRef(null)
   const onLandedRef = useRef(onLanded)
   const hasPlayedRef = useRef(false)
+  const drag = useRef({
+    enabled: false,
+    dragging: false,
+    rotY: 0,
+    lastX: 0,
+    lastT: 0,
+    velX: 0,
+  })
 
   useEffect(() => {
     onLandedRef.current = onLanded
   }, [onLanded])
 
+  // entrance: fall + spin, runs exactly once
   useEffect(() => {
-    if (hasPlayedRef.current) return // already played — never replay, ever
+    if (hasPlayedRef.current) return
     hasPlayedRef.current = true
 
     const tv = tvRef.current
-    if (!tv) return
+    const cube = cubeRef.current
+    if (!tv || !cube) return
 
-    gsap.set(tv, { y: -480, opacity: 0, scale: 0.82, rotateY: 0 })
+    gsap.set(tv, { y: -480, opacity: 0, scale: 0.82 })
+    gsap.set(cube, { rotateY: 0, rotateX: 0 })
 
     gsap
-      .timeline({ delay: 0.35 })
+      .timeline({ delay: 0.65 }) // a little later before it starts coming down
+      .to(tv, { y: 0, opacity: 1, scale: 1, duration: 1.9, ease: 'power3.inOut' }, 0) // faster fall
+      .to(cube, { rotateY: 720, duration: 1.9, ease: 'power3.inOut' }, 0) // coin-flip spins while falling
+      .to(tv, { y: -14, duration: 0.13, ease: 'power1.out' }) // pre-bounce lift
       .to(tv, {
         y: 0,
-        opacity: 1,
-        scale: 1,
-        rotateY: 1080, // three full coin-flip spins on the way down
-        duration: 3, // slow motion
-        ease: 'power3.inOut',
-      })
-      .to(tv, { y: -16, duration: 0.16, ease: 'power1.out' }) // tiny pre-bounce lift
-      .to(tv, {
-        y: 0,
-        duration: 0.55,
+        duration: 0.45,
         ease: 'bounce.out', // weighted landing
         onComplete: () => {
           if (glowRef.current) {
@@ -53,54 +55,137 @@ export default function RetroTV({ onLanded, elevated }) {
             void glowRef.current.offsetWidth
             glowRef.current.classList.add('is-landed')
           }
-          if (bodyRef.current) {
-            bodyRef.current.classList.remove('is-landed')
-            void bodyRef.current.offsetWidth
-            bodyRef.current.classList.add('is-landed')
-          }
+          cube.classList.remove('is-landed')
+          void cube.offsetWidth
+          cube.classList.add('is-landed')
+
+          // normalize spin (720 % 360 = 0, so this is visually seamless)
+          const normalizedY = gsap.getProperty(cube, 'rotateY') % 360
+          drag.current.rotY = normalizedY
+          gsap.set(cube, { rotateY: normalizedY, rotateX: 0 })
+          drag.current.enabled = true // hand control to the mouse/touch
+
           onLandedRef.current && onLandedRef.current()
         },
       })
-
-    // intentionally no cleanup/kill — see comment above
+    // intentionally no cleanup/kill — must survive Strict Mode's dev double-mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // drag-to-rotate — horizontal only, only acts once drag.enabled is flipped true above
+  useEffect(() => {
+    const cube = cubeRef.current
+    if (!cube) return
+    const state = drag.current
+
+    function onPointerDown(e) {
+      if (!state.enabled) return
+      state.dragging = true
+      state.lastX = e.clientX
+      state.lastT = performance.now()
+      state.velX = 0
+      gsap.killTweensOf(cube)
+      cube.setPointerCapture && cube.setPointerCapture(e.pointerId)
+      cube.classList.add('is-dragging')
+    }
+
+    function onPointerMove(e) {
+      if (!state.dragging) return
+      const now = performance.now()
+      const dt = Math.max(now - state.lastT, 1)
+      const dx = e.clientX - state.lastX
+
+      state.rotY += dx * 0.4
+      state.velX = (dx / dt) * 16
+
+      state.lastX = e.clientX
+      state.lastT = now
+
+      gsap.set(cube, { rotateY: state.rotY, rotateX: 0 })
+    }
+
+    function onPointerUp() {
+      if (!state.dragging) return
+      state.dragging = false
+      cube.classList.remove('is-dragging')
+
+      // brief inertia, then ease to a stop — stays wherever it lands
+      const proxy = { rotY: state.rotY }
+      gsap.to(proxy, {
+        rotY: state.rotY + state.velX * 6,
+        duration: 1.1,
+        ease: 'power3.out',
+        onUpdate: () => {
+          state.rotY = proxy.rotY
+          gsap.set(cube, { rotateY: proxy.rotY, rotateX: 0 })
+        },
+      })
+    }
+
+    cube.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+
+    return () => {
+      cube.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+    }
   }, [])
 
   return (
     <div className={`retro-tv-wrap${elevated ? ' is-loading' : ''}`}>
       <div className="retro-tv" ref={tvRef}>
-        <div className="retro-tv-body" ref={bodyRef}>
-          <div className="retro-tv-screen">
-            <div className="retro-tv-glow" ref={glowRef} />
-            <div className="retro-tv-content">
-              <span className="retro-tv-text">
-                THIS IS
-                <br />
-                YOUR MOMENT
-              </span>
+        <div className="tv-cube" ref={cubeRef}>
+          <div className="tv-face tv-face--front">
+            <div className="retro-tv-screen">
+              <div className="retro-tv-glow" ref={glowRef} />
+              <div className="retro-tv-content">
+                <span className="retro-tv-text">
+                  THIS IS
+                  <br />
+                  YOUR MOMENT
+                </span>
 
-              {/*
-              <video
-                className="retro-tv-video"
-                src="/your-clip.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-              */}
+                {/*
+                <video
+                  className="retro-tv-video"
+                  src="/your-clip.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+                */}
+              </div>
+              <div className="retro-tv-scanlines" />
             </div>
-            <div className="retro-tv-scanlines" />
           </div>
 
-          <div className="retro-tv-label">
-            <span className="retro-tv-dot" />
-            DSC//25
+          <div className="tv-face tv-face--back">
+            <span className="tv-face-mark" />
+          </div>
+          <div className="tv-face tv-face--right">
+            <span className="tv-face-mark" />
+          </div>
+          <div className="tv-face tv-face--left">
+            <span className="tv-face-mark" />
+          </div>
+          <div className="tv-face tv-face--top">
+            <span className="tv-face-mark" />
+          </div>
+          <div className="tv-face tv-face--bottom">
+            <span className="tv-face-mark" />
           </div>
         </div>
 
-        <div className="retro-tv-stand" />
+        <div className="retro-tv-label">
+          <span className="retro-tv-dot" />
+          {/* DSC//25 */}
+        </div>
       </div>
+
+      <div className="retro-tv-stand" />
     </div>
   )
 }

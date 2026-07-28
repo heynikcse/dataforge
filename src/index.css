@@ -35,7 +35,7 @@ input[type='submit'] {
     5 4, pointer;
 }
 
-/* ---------- Retro CRT TV ---------- */
+/* ---------- Retro CRT TV (now a real 3D cube) ---------- */
 .retro-tv-wrap {
   position: absolute;
   top: 96px;
@@ -43,20 +43,86 @@ input[type='submit'] {
   transform: translateX(-50%);
   z-index: 15;
   pointer-events: none;
-  perspective: 1000px; /* NEW — needed for the rotateY coin-flip depth */
+  perspective: 1000px;
+}
+
+.retro-tv-wrap.is-loading {
+  z-index: 110; /* sits above the loader overlay while it's up/fading */
 }
 
 .retro-tv {
   width: 200px;
-  transform-style: preserve-3d; /* NEW — makes the flip look 3D, not squished */
+  transform-style: preserve-3d;
 }
 
-.retro-tv-body {
-  background: linear-gradient(155deg, #1c1c1c, #0c0c0c 60%);
+/* ---------- 3D cube ---------- */
+.tv-cube {
+  position: relative;
+  width: 176px;
+  height: 176px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  box-shadow:
+    -46px 0 70px -30px rgba(255, 90, 31, 0.35),
+    46px 0 70px -30px rgba(255, 90, 31, 0.35);
+}
+
+.tv-cube.is-dragging {
+  cursor: grabbing;
+}
+
+.tv-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
   border: 1px solid var(--line-strong);
-  border-radius: 16px;
-  padding: 12px 12px 10px;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 90, 31, 0.12);
+  background: linear-gradient(155deg, #1c1c1c, #0c0c0c 60%);
+  backface-visibility: hidden;
+  box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-face--front {
+  transform: translateZ(88px);
+  background: #050505;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tv-face--back  { transform: rotateY(180deg) translateZ(88px); }
+.tv-face--right { transform: rotateY(90deg) translateZ(88px); }
+.tv-face--left  { transform: rotateY(-90deg) translateZ(88px); }
+.tv-face--top   { transform: rotateX(90deg) translateZ(88px); }
+.tv-face--bottom{ transform: rotateX(-90deg) translateZ(88px); }
+
+.tv-face-mark {
+  width: 10px;
+  height: 10px;
+  background: var(--orange);
+  box-shadow: 0 0 10px rgba(255, 90, 31, 0.7);
+  display: block;
+}
+
+.tv-face--front .retro-tv-screen {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 10px;
+}
+
+@keyframes tvCubePulse {
+  0% { box-shadow: 0 0 0 rgba(255, 90, 31, 0); }
+  45% { box-shadow: 0 0 60px rgba(255, 90, 31, 0.4); }
+  100% { box-shadow: 0 0 0 rgba(255, 90, 31, 0); }
+}
+
+.tv-cube.is-landed {
+  animation: tvCubePulse 0.9s ease-out;
 }
 
 .retro-tv-screen {
@@ -155,6 +221,16 @@ input[type='submit'] {
   .retro-tv {
     width: 150px;
   }
+  .tv-cube {
+    width: 130px;
+    height: 130px;
+  }
+  .tv-face--front  { transform: translateZ(65px); }
+  .tv-face--back   { transform: rotateY(180deg) translateZ(65px); }
+  .tv-face--right  { transform: rotateY(90deg) translateZ(65px); }
+  .tv-face--left   { transform: rotateY(-90deg) translateZ(65px); }
+  .tv-face--top    { transform: rotateX(90deg) translateZ(65px); }
+  .tv-face--bottom { transform: rotateX(-90deg) translateZ(65px); }
 }
 
 body {
@@ -167,6 +243,10 @@ body {
 }
 
 body.menu-open {
+  overflow: hidden;
+}
+
+body.loading {
   overflow: hidden;
 }
 
@@ -653,33 +733,4 @@ h1.hero-title .char {
   z-index: 100;
   background: var(--bg);
   pointer-events: none;
-}
-
-.retro-tv-wrap.is-loading {
-  z-index: 110; /* sits above the loader overlay while it's up/fading */
-}
-
-body.loading {
-  overflow: hidden;
-}
-
-/* ---------- Glow / body pulse on TV landing ---------- */
-@keyframes tvGlowPulse {
-  0% { opacity: 0.4; transform: scale(0.9); }
-  40% { opacity: 1; transform: scale(1.3); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-.retro-tv-glow.is-landed {
-  animation: tvGlowPulse 0.9s ease-out;
-}
-
-@keyframes tvBodyPulse {
-  0% { box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 90, 31, 0.12); }
-  45% { box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 90px rgba(255, 90, 31, 0.45); }
-  100% { box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(255, 90, 31, 0.12); }
-}
-
-.retro-tv-body.is-landed {
-  animation: tvBodyPulse 0.9s ease-out;
 }
