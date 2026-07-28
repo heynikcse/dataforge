@@ -1,4 +1,5 @@
 import CountUp from './CountUp.jsx'
+import BulbHeading from './BulbHeading.jsx'
 
 const STATS = [
   { end: 48, prefix: '', suffix: '', label: 'HOURS' },
@@ -16,9 +17,12 @@ export default function About() {
           02 / ABOUT
         </div>
 
-        <h2 className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl">
+        <BulbHeading
+          as="h2" 
+          className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl"
+        >
           Where data meets deadline.
-        </h2>
+        </BulbHeading>
 
         <p className="font-body text-offwhite/70 text-base sm:text-lg leading-relaxed max-w-2xl mt-8">
           DATAFORGE is a 48-hour national hackathon hosted by the Data Science Club at

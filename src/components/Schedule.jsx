@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import BulbHeading from './BulbHeading.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -100,9 +101,12 @@ export default function Schedule() {
           03 / SCHEDULE
         </div>
 
-        <h2 className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl mb-20">
+        <BulbHeading
+          as="h2" 
+          className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl mb-20"
+        >
           48 hours, mapped out.
-        </h2>
+        </BulbHeading>
 
         <div className="timeline-wrap max-w-2xl" ref={wrapRef}>
           <div className="timeline-rail" />

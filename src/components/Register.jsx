@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import BulbHeading from './BulbHeading.jsx'
 
 const FIELD_CLASS =
   'w-full bg-transparent border-b border-lineStrong focus:border-orange outline-none py-3 font-body text-offwhite placeholder:text-gray transition-colors'
@@ -75,9 +76,12 @@ export default function Register() {
           06 / REGISTER
         </div>
 
-        <h2 className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] mb-4">
+        <BulbHeading
+          as="h2"
+          className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] mb-4"
+        >
           Claim your slot.
-        </h2>
+        </BulbHeading>
         <p className="font-body text-gray text-sm sm:text-base mb-6">
           Teams of 2–4. Registration closes SEPT 5, 2026.
         </p>

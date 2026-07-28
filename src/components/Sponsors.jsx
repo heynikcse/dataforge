@@ -1,3 +1,5 @@
+import BulbHeading from './BulbHeading.jsx'
+
 const SPONSORS = ['NEXORA AI', 'QUANTECH', 'VERTEX LABS', 'PIXEL & CO', 'STRATA DATA', 'HELIX CLOUD']
 
 export default function Sponsors() {
@@ -9,9 +11,12 @@ export default function Sponsors() {
           05 / SPONSORS
         </div>
 
-        <h2 className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl mb-16">
+        <BulbHeading
+          as="h2" 
+          className="font-display font-extrabold uppercase text-orange leading-[0.95] tracking-tight text-[clamp(2.2rem,6vw,4.5rem)] max-w-3xl mb-16"
+        >
           Backed by builders.
-        </h2>
+        </BulbHeading>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 border-t border-l border-line">
           {SPONSORS.map((s) => (
