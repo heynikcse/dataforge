@@ -141,22 +141,14 @@ export default function RetroTV({ onLanded, elevated }) {
             <div className="retro-tv-screen">
               <div className="retro-tv-glow" ref={glowRef} />
               <div className="retro-tv-content">
-                <span className="retro-tv-text">
-                  THIS IS
-                  <br />
-                  YOUR MOMENT
-                </span>
-
-                {/*
                 <video
                   className="retro-tv-video"
-                  src="/your-clip.mp4"
+                  src="/videos/tv-loop.mp4"
                   autoPlay
                   muted
                   loop
                   playsInline
                 />
-                */}
               </div>
               <div className="retro-tv-scanlines" />
             </div>
